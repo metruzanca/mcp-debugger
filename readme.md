@@ -101,17 +101,15 @@ Agent: Use the stop tool to end the session
 
 ## Log Format
 
-Logs are stored in `debug-logs.json` in the working directory. The server accepts any content - JSON objects, arrays, or plain strings. Each entry is logged exactly as sent.
+Logs are stored in `.debug.log` in the working directory as plaintext, one entry per line. The server accepts any content - JSON objects, arrays, or plain strings. Each entry is appended directly to the file.
 
 Example log file:
 
-```json
-[
-  { "x": 42, "step": "init" },
-  "checkpoint reached",
-  "userId = 123",
-  [1, 2, 3]
-]
+```
+{"x":42,"step":"init"}
+checkpoint reached
+userId = 123
+[1,2,3]
 ```
 
 The format is intentionally flexible - agents and users decide what to log.

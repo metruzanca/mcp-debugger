@@ -1,7 +1,7 @@
 export type LogData = any;
 export declare class LogManager {
     private readonly logFilePath;
-    readLogs(): Promise<LogData[]>;
+    readLogs(): Promise<string>;
     appendLog(data: LogData): Promise<void>;
     clearLogs(): Promise<void>;
     deleteLogFile(): Promise<void>;

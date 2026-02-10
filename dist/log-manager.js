@@ -1,28 +1,24 @@
-import { readFile, writeFile, unlink } from 'fs/promises';
+import { readFile, appendFile, writeFile, unlink } from 'fs/promises';
 import { existsSync } from 'fs';
 export class LogManager {
-    logFilePath = './debug-logs.json';
+    logFilePath = './.debug.log';
     async readLogs() {
         try {
             if (!existsSync(this.logFilePath)) {
-                return [];
+                return '';
             }
-            const content = await readFile(this.logFilePath, 'utf-8');
-            if (!content.trim()) {
-                return [];
-            }
-            return JSON.parse(content);
+            return await readFile(this.logFilePath, 'utf-8');
         }
         catch (error) {
             console.error('Error reading logs:', error);
-            return [];
+            return '';
         }
     }
     async appendLog(data) {
         try {
-            const logs = await this.readLogs();
-            logs.push(data);
-            await writeFile(this.logFilePath, JSON.stringify(logs, null, 2));
+            // Convert data to string - if object/array, stringify it
+            const line = typeof data === 'string' ? data : JSON.stringify(data);
+            await appendFile(this.logFilePath, line + '\n');
         }
         catch (error) {
             console.error('Error appending log:', error);
@@ -31,9 +27,7 @@ export class LogManager {
     }
     async clearLogs() {
         try {
-            if (existsSync(this.logFilePath)) {
-                await writeFile(this.logFilePath, JSON.stringify([], null, 2));
-            }
+            await writeFile(this.logFilePath, '');
         }
         catch (error) {
             console.error('Error clearing logs:', error);
