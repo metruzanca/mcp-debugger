@@ -13,7 +13,7 @@ Inspired by Cursor's debug mode, this MCP enables any agent to debug any languag
 
 1. Agent starts the log collection server with the `start` command
 2. Agent generates 4-5 hypotheses about what could be causing the issue
-3. Agent adds `fetch('localhost:6969', { body: JSON.stringify({ /* debug data */ }) })` to code at specific verification points
+3. Agent adds `fetch('localhost:6969', { body: /* any data */ })` to code at specific verification points
 4. For UI-based apps, agent asks users to manually reproduce bugs (never simulates UI interactions)
 5. Agent validates hypotheses against collected log data using confirmed/disproven/inconclusive criteria
 6. Agent iteratively refines hypotheses until the root cause is found
@@ -84,14 +84,10 @@ npx -y github:metruzanca/mcp-debugger
 # Start collecting logs
 Agent: Use the start tool to begin log collection
 
-# Add debug logging to your code
-await fetch('localhost:6969', {
-  body: JSON.stringify({
-    variable: userData,
-    step: 'validation',
-    timestamp: Date.now()
-  })
-})
+# Add debug logging to your code (JSON or plain strings)
+await fetch('localhost:6969', { body: JSON.stringify({ x: 42, step: 'init' }) })
+await fetch('localhost:6969', { body: 'checkpoint reached' })
+await fetch('localhost:6969', { body: `userId = ${userId}` })
 
 # Clear logs before running tests
 Agent: Use the clear tool to reset logs
@@ -105,26 +101,20 @@ Agent: Use the stop tool to end the session
 
 ## Log Format
 
-Logs are stored in `debug-logs.json` in the working directory with structured JSON entries including timestamps and request data.
+Logs are stored in `debug-logs.json` in the working directory. The server accepts any content - JSON objects, arrays, or plain strings. Each entry is logged exactly as sent.
 
-Example log entry:
+Example log file:
 
 ```json
-{
-  "timestamp": "2026-02-10T10:30:00.000Z",
-  "method": "POST",
-  "url": "/",
-  "headers": {
-    "content-type": "application/json",
-    "host": "localhost:6969"
-  },
-  "data": {
-    "variable": "userData",
-    "step": "validation",
-    "timestamp": 1725946200000
-  }
-}
+[
+  { "x": 42, "step": "init" },
+  "checkpoint reached",
+  "userId = 123",
+  [1, 2, 3]
+]
 ```
+
+The format is intentionally flexible - agents and users decide what to log.
 
 ## Requirements
 
