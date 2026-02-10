@@ -66,7 +66,21 @@ export class LogServer {
 
     req.on('end', async () => {
       try {
-        const logData = JSON.parse(body);
+        // Skip empty bodies
+        if (!body.trim()) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Empty body, skipped' }));
+          return;
+        }
+
+        // Try JSON first, fall back to raw string
+        let logData;
+        try {
+          logData = JSON.parse(body);
+        } catch {
+          logData = body;
+        }
+
         await this.logManager.appendLog(logData);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -75,9 +89,9 @@ export class LogServer {
           message: 'Log entry recorded' 
         }));
       } catch (error) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ 
-          error: 'Invalid JSON or logging failed',
+          error: 'Failed to write log',
           details: error instanceof Error ? error.message : 'Unknown error'
         }));
       }
