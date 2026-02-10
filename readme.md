@@ -7,7 +7,7 @@ Inspired by Cursor's debug mode, this MCP enables any agent to debug any languag
 - **start**: Launches a log collection server on localhost:6969
 - **stop**: Stops the log collection server and deletes log file
 - **clear**: Clears the debug log file
-- **mcp-debugger-instructions**: Hypothesis-driven debugging guide with UI reproduction instructions
+- **debug** (prompt): Hypothesis-driven debugging workflow
 
 ## How It Works
 
