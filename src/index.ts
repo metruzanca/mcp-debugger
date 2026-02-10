@@ -167,7 +167,7 @@ Now logs just store the data object directly - no extra HTTP metadata needed.
    - Confirm they've completed the reproduction
    - Then proceed to read the logs
 
-9. **Read Logs**: Check the debug-logs.json file to see what was captured from the user's reproduction
+9. **Read Logs**: Check the .debug.log file to see what was captured from the user's reproduction
 
 10. **Evaluate Hypotheses**: For each hypothesis:
    - ✓ **Confirmed**: Log data matches the hypothesis - you found the issue!
