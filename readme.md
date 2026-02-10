@@ -44,6 +44,8 @@ npx -y github:metruzanca/mcp-debugger
 
 </details>
 
+
+<details>
 <summary>Claude Desktop</summary>
 
 1. Open Claude Desktop → Settings → Developer → Edit Config
@@ -75,8 +77,6 @@ npx -y github:metruzanca/mcp-debugger
 3. Click "Add Server"
 4. Restart Cursor to load the new tools
 </details>
-
-<details>
 
 ## Usage Example
 
