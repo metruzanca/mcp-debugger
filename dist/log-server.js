@@ -59,13 +59,7 @@ export class LogServer {
         req.on('end', async () => {
             try {
                 const logData = JSON.parse(body);
-                await this.logManager.appendLog({
-                    timestamp: new Date().toISOString(),
-                    method: req.method,
-                    url: req.url,
-                    headers: req.headers,
-                    data: logData
-                });
+                await this.logManager.appendLog(logData);
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({
                     success: true,

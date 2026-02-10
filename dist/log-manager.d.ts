@@ -1,14 +1,8 @@
-export interface LogEntry {
-    timestamp: string;
-    method: string;
-    url: string;
-    headers: any;
-    data: any;
-}
+export type LogData = any;
 export declare class LogManager {
     private readonly logFilePath;
-    readLogs(): Promise<LogEntry[]>;
-    appendLog(entry: LogEntry): Promise<void>;
+    readLogs(): Promise<LogData[]>;
+    appendLog(data: LogData): Promise<void>;
     clearLogs(): Promise<void>;
     deleteLogFile(): Promise<void>;
     getLogFilePath(): string;

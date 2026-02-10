@@ -18,10 +18,10 @@ export class LogManager {
             return [];
         }
     }
-    async appendLog(entry) {
+    async appendLog(data) {
         try {
             const logs = await this.readLogs();
-            logs.push(entry);
+            logs.push(data);
             await writeFile(this.logFilePath, JSON.stringify(logs, null, 2));
         }
         catch (error) {

@@ -56,7 +56,7 @@ server.tool('stop', 'Stop the log collection server and delete log file', {}, as
         };
     }
 });
-server.tool('clear', 'Clear the debug log file contents', {}, async () => {
+server.tool('clear', 'Clear debug log file contents', {}, async () => {
     try {
         await logManager.clearLogs();
         return {
@@ -121,7 +121,7 @@ server.registerPrompt('mcp-debugger-instructions', {
      body: JSON.stringify({
        hypothesis: 'Hypothesis 1: Variable X is undefined',
        location: 'functionName:lineNumber',
-       variableName: variableValue,
+       variableValue: variableValue,
        expected: 'should be defined',
        actual: variableValue,
        timestamp: Date.now()
@@ -134,6 +134,9 @@ server.registerPrompt('mcp-debugger-instructions', {
    - Current values of relevant variables
    - Expected vs actual behavior
    - Location in the code (function name, line number)
+
+**New Simplified Log Format**: 
+Now logs just store the data object directly - no extra HTTP metadata needed.
 
 ## **Phase 3: Execute & Validate**
 8. **Wait for User Input** (UI apps): If this is a UI-based app, wait for the user to:

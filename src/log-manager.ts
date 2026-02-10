@@ -1,18 +1,12 @@
-import { readFile, writeFile, truncate, unlink } from 'fs/promises';
+import { readFile, writeFile, unlink } from 'fs/promises';
 import { existsSync } from 'fs';
 
-export interface LogEntry {
-  timestamp: string;
-  method: string;
-  url: string;
-  headers: any;
-  data: any;
-}
+export type LogData = any;
 
 export class LogManager {
   private readonly logFilePath = './debug-logs.json';
 
-  async readLogs(): Promise<LogEntry[]> {
+  async readLogs(): Promise<LogData[]> {
     try {
       if (!existsSync(this.logFilePath)) {
         return [];
@@ -23,17 +17,17 @@ export class LogManager {
         return [];
       }
       
-      return JSON.parse(content) as LogEntry[];
+      return JSON.parse(content) as LogData[];
     } catch (error) {
       console.error('Error reading logs:', error);
       return [];
     }
   }
 
-  async appendLog(entry: LogEntry): Promise<void> {
+  async appendLog(data: LogData): Promise<void> {
     try {
       const logs = await this.readLogs();
-      logs.push(entry);
+      logs.push(data);
       await writeFile(this.logFilePath, JSON.stringify(logs, null, 2));
     } catch (error) {
       console.error('Error appending log:', error);
