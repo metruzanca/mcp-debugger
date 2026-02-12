@@ -86,11 +86,17 @@ server.registerPrompt(
 
 5. **Request Reproduction** (UI apps): Ask user to trigger the bug
 6. **Clear Logs**: Use 'clear' tool before reproduction
-7. **Add Log Points**: Insert fetch calls at verification points:
+7. **Add Log Points**: Insert fetch calls at verification points, wrapped with region comments for easy removal:
    \`\`\`javascript
+   //#region debug
    fetch('localhost:6969', { body: JSON.stringify({ hypothesis: 1, value: x }) })
+   //#endregion debug
+
+   //#region debug
    fetch('localhost:6969', { body: 'checkpoint: after validation' })
+   //#endregion debug
    \`\`\`
+   This makes logs easy to find and remove with \`grep -v "//#region debug"\` or \`grep -v "//#endregion debug"\`.
 
 ## Phase 3: Execute & Validate
 8. **Wait for User** (UI apps): Let user reproduce the bug
